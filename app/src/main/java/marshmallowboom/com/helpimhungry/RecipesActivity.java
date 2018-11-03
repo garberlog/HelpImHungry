@@ -60,18 +60,18 @@ public class RecipesActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_search) {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_pantry) {
             Intent intent = new Intent(this, PantryActivity.class);
             startActivity(intent);
-            return true;
 
         } else if (id == R.id.nav_recipes) {
 
         } else if (id == R.id.nav_setting) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
-            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
