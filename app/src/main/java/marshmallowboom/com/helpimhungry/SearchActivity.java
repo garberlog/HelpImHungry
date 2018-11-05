@@ -1,9 +1,15 @@
 package marshmallowboom.com.helpimhungry;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+//import android.support.v7.widget.SearchView;
+import android.widget.SearchView;
+import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +20,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 public class SearchActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+                SearchView.OnQueryTextListener{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,27 @@ public class SearchActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SearchView searchBar = (SearchView) findViewById(R.id.searchBar);
+        searchBar.setSubmitButtonEnabled(true);
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            //Search Functions:
+           @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Handles search query
+                //Debugging line:
+                //Log.d("QUERY", "word: " + query);
+                //Implement Search Function here!
+                return false;
+            }
+            //Handle text changes
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String text = newText;
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -76,5 +105,16 @@ public class SearchActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
