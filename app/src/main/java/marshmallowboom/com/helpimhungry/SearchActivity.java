@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 //import android.support.v7.widget.SearchView;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -18,10 +19,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
                 SearchView.OnQueryTextListener{
+
+    String[] recipeNames;
+    List<String> adaptorNames;
+    ResultsListAdaptor listAdaptor;
+    ListView listView;
 
 
     @Override
@@ -49,25 +61,30 @@ public class SearchActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Search bar
         SearchView searchBar = (SearchView) findViewById(R.id.searchBar);
         searchBar.setSubmitButtonEnabled(true);
-        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-            //Search Functions:
-           @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Handles search query
-                //Debugging line:
-                //Log.d("QUERY", "word: " + query);
-                //Implement Search Function here!
-                return false;
-            }
-            //Handle text changes
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                String text = newText;
-                return false;
-            }
-        });
+        searchBar.setOnQueryTextListener(this);
+        //NOTE:
+        //Remove after display works!
+        recipeNames = new String[]{"Chicken Noodle Soup",
+                "Pancakes",
+                "Waffles",
+                "Scrambled Eggs",
+                "French Toast",
+                "Stir-Fry Vegetables",
+                "General Tso's Chicken",
+                "Steamed Flounder with Black Beans"};
+        adaptorNames = new ArrayList<String>();
+        //add values into list
+        for(int i = 0; i < recipeNames.length; i++){
+            adaptorNames.add(recipeNames[i]);
+        }
+        //Setup adaptor List
+        listView = (ListView) this.findViewById(R.id.resultList);
+        listAdaptor = new ResultsListAdaptor(this ,adaptorNames);
+        listView.setAdapter(listAdaptor);
+
 
     }
 
@@ -107,14 +124,20 @@ public class SearchActivity extends AppCompatActivity
         return true;
     }
 
-
+    //Processes Query after user taps "Submit" button
     @Override
     public boolean onQueryTextSubmit(String query) {
+        //Handles search query
+        //Debugging line:
+        Log.d("QUERY", "word: " + query);
+        //Implement Search Function here;
         return false;
     }
-
+    //Handle text changes
     @Override
     public boolean onQueryTextChange(String newText) {
+        String text = newText;
+        listAdaptor.filter(newText);
         return false;
     }
 }
