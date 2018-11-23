@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity
 
     String[] recipeNames;
     List<String> adaptorNames;
-    ResultsListAdaptor listAdaptor;
+    ListAdaptor listAdaptor;
     ListView listView;
 
 
@@ -82,7 +82,7 @@ public class SearchActivity extends AppCompatActivity
         }
         //Setup adaptor List
         listView = (ListView) this.findViewById(R.id.resultList);
-        listAdaptor = new ResultsListAdaptor(this ,adaptorNames);
+        listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipe_name);
         listView.setAdapter(listAdaptor);
 
 
@@ -131,6 +131,7 @@ public class SearchActivity extends AppCompatActivity
         //Debugging line:
         Log.d("QUERY", "word: " + query);
         //Implement Search Function here;
+        //listAdaptor.filter(query);
         return false;
     }
     //Handle text changes
