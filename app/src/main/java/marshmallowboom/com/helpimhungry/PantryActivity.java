@@ -17,11 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class PantryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Button addButton;
+    Button removeButton;
     TextInputLayout inputIngredient;
+    ListAdaptor listAdaptor;
+    ArrayList<String> pantryList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +56,9 @@ public class PantryActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         addButton = (Button) findViewById(R.id.addButton);
+        removeButton = (Button) findViewById(R.id.removePantryItem);
         inputIngredient = (TextInputLayout) findViewById(R.id.addIngredientText);
+        listAdaptor = new ListAdaptor(this, pantryList, R.id.addIngredientText);
 
 
 

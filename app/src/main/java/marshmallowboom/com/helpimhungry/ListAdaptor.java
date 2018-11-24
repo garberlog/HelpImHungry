@@ -1,6 +1,7 @@
 package marshmallowboom.com.helpimhungry;
 
 import android.content.Context;
+import android.support.constraint.solver.widgets.WidgetContainer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,11 +29,11 @@ public class ListAdaptor extends BaseAdapter {
     private LayoutInflater inflater;
     private int listID;
 
-    public ListAdaptor(Context context, List<String> recipes, int id){
+    public ListAdaptor(Context context, List<String> content, int id){
         mContext = context;
-        displayItems = recipes;
+        displayItems = content;
         allItems = new ArrayList<String>();
-        allItems.addAll(recipes);
+        allItems.addAll(content);
         inflater = LayoutInflater.from(mContext);
         displayItems.clear();
         listID = id;
@@ -63,7 +65,7 @@ public class ListAdaptor extends BaseAdapter {
             Log.d("Adaptor_view", "IN-IF VIEW NULL");
             view = inflater.inflate(R.layout.result_list_items,null);
             holder = new ViewHolder();
-            holder.itemName = (Button) view.findViewById(listID);
+            holder.itemName = view.findViewById(listID);
             view.setTag(holder);
         }else{
             Log.d("Adaptor_view", "IN-IF VIEW NOT NULL");
