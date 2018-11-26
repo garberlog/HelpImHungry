@@ -3,22 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/title_activity_login" />
+    <group
+        android:id="@+id/regular_group"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_search"
             android:icon="@android:drawable/ic_search_category_default"
             android:title="@string/title_activity_search" />
         <item
             android:id="@+id/nav_pantry"
-            android:icon="@android:drawable/ic_popup_sync"
+            android:icon="@drawable/ic_view_list_black_24dp"
             android:title="@string/title_activity_pantry" />
         <item
             android:id="@+id/nav_recipes"
-            android:icon="@android:drawable/btn_star"
+            android:icon="@drawable/ic_collections_bookmark_black_24dp"
             android:title="@string/title_activity_recipes" />
         <item
             android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/title_activity_settings" />
     </group>
 
