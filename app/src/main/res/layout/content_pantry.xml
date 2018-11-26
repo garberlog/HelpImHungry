@@ -9,37 +9,27 @@
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/app_bar_pantry">
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="296dp"
-        android:layout_marginTop="24dp"
-        android:text="Add"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/addIngredientText"
-        android:layout_width="0dp"
+        android:id="@+id/addIngredientTextLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/addButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addButton">
+        app:layout_constraintStart_toStartOf="parent">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/addIngredientTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Ingredient" />
+            android:hint="Ingredient"
+            android:inputType="text" />
+
     </android.support.design.widget.TextInputLayout>
 
     <ListView
         android:id="@+id/pantryList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/addIngredientText" />
+        app:layout_constraintTop_toBottomOf="@+id/addIngredientTextLayout" >
+
+    </ListView>
 
 </android.support.constraint.ConstraintLayout>

@@ -55,11 +55,12 @@ public class PantryActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        addButton = (Button) findViewById(R.id.addButton);
-        removeButton = (Button) findViewById(R.id.removePantryItem);
-        inputIngredient = (TextInputLayout) findViewById(R.id.addIngredientText);
-        listAdaptor = new ListAdaptor(this, pantryList, R.id.addIngredientText);
+        //addButton = (Button) findViewById(R.id.addButton);
+        //removeButton = (Button) findViewById(R.id.removePantryItem);
+        inputIngredient = (TextInputLayout) findViewById(R.id.addIngredientTextLayout);
+        //listAdaptor = new ListAdaptor(this, pantryList, R.id.addIngredientText);
 
+        //inputIngredient
 
 
     }
@@ -80,7 +81,10 @@ public class PantryActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_search) {
+        /*if(id == R.id.nav_login){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else*/ if (id == R.id.nav_search) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
 

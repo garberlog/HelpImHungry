@@ -82,7 +82,7 @@ public class SearchActivity extends AppCompatActivity
         }
         //Setup adaptor List
         listView = (ListView) this.findViewById(R.id.resultList);
-        listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipe_name);
+        listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipeItems);
         listView.setAdapter(listAdaptor);
 
 
@@ -103,8 +103,10 @@ public class SearchActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_search) {
+        /*if(id == R.id.nav_login){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else*/ if (id == R.id.nav_search) {
 
         } else if (id == R.id.nav_pantry) {
             Intent intent = new Intent(this, PantryActivity.class);

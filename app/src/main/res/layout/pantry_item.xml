@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/pantryItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ingredient"
-        android:textSize="24sp" />
+        android:textSize="24sp" />-->
 
     <Button
-        android:id="@+id/removePantryItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/pantryItem"
-        android:layout_alignBaseline="@+id/pantryItem"
-        android:text="X"/>
+    android:id="@+id/removePantryItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Ingredient"/>
+    <!--android:layout_toEndOf="@+id/pantryItem"
+    android:layout_alignBaseline="@+id/pantryItem"-->
+
 
 </RelativeLayout>
