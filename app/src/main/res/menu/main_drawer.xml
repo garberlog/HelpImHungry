@@ -21,7 +21,8 @@
         <item
             android:id="@+id/nav_recipes"
             android:icon="@drawable/ic_collections_bookmark_black_24dp"
-            android:title="@string/title_activity_recipes" />
+            android:title="@string/title_activity_recipes"
+            android:visible="false" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_black_24dp"
