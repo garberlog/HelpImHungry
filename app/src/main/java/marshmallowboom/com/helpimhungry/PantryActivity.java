@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,17 +17,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
 public class PantryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+                     SearchView.OnQueryTextListener{
 
-    Button addButton;
-    Button removeButton;
-    TextInputLayout inputIngredient;
     ListAdaptor listAdaptor;
+    SearchView ingredientInput;
     ArrayList<String> pantryList;
+    ListView listView;
 
 
 
@@ -46,11 +49,16 @@ public class PantryActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //addButton = (Button) findViewById(R.id.addButton);
-        //removeButton = (Button) findViewById(R.id.removePantryItem);
-        inputIngredient = (TextInputLayout) findViewById(R.id.addIngredientTextLayout);
-        //listAdaptor = new ListAdaptor(this, pantryList, R.id.addIngredientText);
+        ingredientInput = (SearchView) findViewById(R.id.pantryInput);
+        ingredientInput.setSubmitButtonEnabled(true);
+        ingredientInput.setOnQueryTextListener(this);
 
+        pantryList = new ArrayList<String>();
+
+
+        listView = (ListView) findViewById(R.id.pantryList);
+        listAdaptor = new ListAdaptor(this, pantryList, R.id.pantryItem, R.layout.pantry_item);
+        listView.setAdapter(listAdaptor);
         //inputIngredient
 
 
@@ -94,4 +102,25 @@ public class PantryActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        //Handles search query
+        //Debugging line:
+        Log.d("QUERY", "word: " + query);
+        //Implement Search Function here;
+        listAdaptor.addIngredient(query);
+        listAdaptor.displayAll();
+        query = "";
+        return false;
+    }
+    //Handle text changes
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String text = newText;
+        listAdaptor.clear();
+        return false;
+    }
+
+
 }

@@ -27,16 +27,19 @@ public class ListAdaptor extends BaseAdapter {
     private List<String> displayItems = null;
     private ArrayList<String> allItems;
     private LayoutInflater inflater;
-    private int listID;
+    private int listItemID;
+    private int layoutID;
 
-    public ListAdaptor(Context context, List<String> content, int id){
+    public ListAdaptor(Context context, List<String> content, int itemid, int layoutid){
         mContext = context;
         displayItems = content;
         allItems = new ArrayList<String>();
         allItems.addAll(content);
         inflater = LayoutInflater.from(mContext);
         displayItems.clear();
-        listID = id;
+        listItemID = itemid;
+        layoutID = layoutid;
+
     }
     @Override
     public int getCount() {
@@ -63,9 +66,10 @@ public class ListAdaptor extends BaseAdapter {
         }
         if(view == null){
             Log.d("Adaptor_view", "IN-IF VIEW NULL");
-            view = inflater.inflate(R.layout.result_list_items,null);
+            view = inflater.inflate(layoutID,null);
             holder = new ViewHolder();
-            holder.itemName = view.findViewById(listID);
+            //Gets Button
+            holder.itemName = view.findViewById(listItemID);
             view.setTag(holder);
         }else{
             Log.d("Adaptor_view", "IN-IF VIEW NOT NULL");
@@ -90,6 +94,33 @@ public class ListAdaptor extends BaseAdapter {
             }
         }
         notifyDataSetChanged();
+    }
+
+    //Add Ingredient:
+    //Used by:
+    //  Pantry Stuff
+    public void addIngredient(String charText){
+        charText = charText.toLowerCase(Locale.getDefault());
+        boolean in_list = false;
+        for(String name : allItems){
+            if(name.toLowerCase(Locale.getDefault()).contains(charText)){
+                in_list = true;
+                break;
+            }
+        }
+        if(!in_list){
+            allItems.add(charText);
+        }
+
+        notifyDataSetChanged();
+    }
+
+    public void clear(){
+        displayItems.clear();
+    }
+
+    public void displayAll(){
+        displayItems.addAll(allItems);
     }
 
 
