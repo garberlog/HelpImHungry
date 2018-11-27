@@ -103,6 +103,7 @@ public class PantryActivity extends AppCompatActivity
         return true;
     }
 
+    //When submit text
     @Override
     public boolean onQueryTextSubmit(String query) {
         //Handles search query
@@ -118,8 +119,18 @@ public class PantryActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         String text = newText;
-        listAdaptor.clear();
+        listAdaptor.filter(text);
+        if(text.isEmpty()){
+            listAdaptor.displayAll();
+        }
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ingredientInput.setQuery("", false);
     }
 
 
