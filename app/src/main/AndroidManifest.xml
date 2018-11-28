@@ -56,8 +56,8 @@
                 android:value="marshmallowboom.com.helpimhungry.SearchActivity" />
         </activity>
         <activity
-            android:name=".RecipesActivity"
-            android:label="@string/title_activity_recipes"
+            android:name=".MyRecipesActivity"
+            android:label="@string/title_activity_myrecipes"
             android:parentActivityName=".SearchActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
