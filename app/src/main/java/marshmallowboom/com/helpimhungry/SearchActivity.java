@@ -105,6 +105,7 @@ public class SearchActivity extends AppCompatActivity
     //Processes Query after user taps "Submit" button
     @Override
     public boolean onQueryTextSubmit(String query) {
+
         //Debugging line:
         Log.d("QUERY", "word: " + query);
         //Handles search query
@@ -129,6 +130,7 @@ public class SearchActivity extends AppCompatActivity
             listAdaptor.setCurrentIngredient(query);
             try {
                 recipes = task.execute(queryList.toArray(queryArray)).get();
+                listAdaptor.clear();
                 updateUI(recipes);
             } catch (InterruptedException e) {
                 e.printStackTrace();

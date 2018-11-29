@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class PantryActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         pantryList = new ArrayList<String>();
-        savedPantry = new File(getFilesDir(), "pantryList.csv");
+        savedPantry = new File(getFilesDir(), "pantryList.txt");
 
         ingredientInput = (SearchView) findViewById(R.id.pantryInput);
         ingredientInput.setSubmitButtonEnabled(true);
@@ -61,17 +63,31 @@ public class PantryActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
+        /*String parseline = new String();
 
         //Parsing arraylist from csv file
-        /*try{
+        try{
             FileInputStream fis = new FileInputStream(savedPantry);
-            String oneline = new String();
-            //while(){
+            InputStreamReader inputStreamReader = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuilder stringBuilder = new StringBuilder();
 
+            while((parseline = bufferedReader.readLine()) != null){
+                stringBuilder.append(parseline+System.getProperty(","));
             }
+            fis.close();
+            parseline = stringBuilder.toString();
+
+            Log.d("OnStart", parseline);
+
+            bufferedReader.close();
+
 
         }catch(FileNotFoundException o){
             Log.d("ERROR:OnStart", "FILE NOT FOUND");
+            return;
+        }catch(IOException io){
+            Log.d("ERROR:OnStart", "IO ERROR");
             return;
         }*/
 

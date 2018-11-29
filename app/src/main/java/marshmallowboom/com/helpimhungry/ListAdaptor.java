@@ -134,16 +134,19 @@ public class ListAdaptor extends BaseAdapter {
     }
     public void removeIngredient(int pos){
         displayItems.remove(pos);
-
+        allItems.remove(pos);
         notifyDataSetChanged();
     }
 
     public void clear(){
+        //recipes.clear();
+        allItems.clear();
         displayItems.clear();
         notifyDataSetChanged();
     }
 
     public void displayAll(){
+        displayItems.clear();
         displayItems.addAll(allItems);
         notifyDataSetChanged();
     }
