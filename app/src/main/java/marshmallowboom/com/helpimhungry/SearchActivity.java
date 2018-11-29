@@ -126,6 +126,7 @@ public class SearchActivity extends AppCompatActivity
             queryList.add(query);
             String[] queryArray = new String[queryList.size()];
             //gets recipes from database
+            listAdaptor.setCurrentIngredient(query);
             try {
                 recipes = task.execute(queryList.toArray(queryArray)).get();
                 updateUI(recipes);

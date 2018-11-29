@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,7 +63,17 @@ public class PantryActivity extends AppCompatActivity
         super.onStart();
 
         //Parsing arraylist from csv file
+        /*try{
+            FileInputStream fis = new FileInputStream(savedPantry);
+            String oneline = new String();
+            //while(){
 
+            }
+
+        }catch(FileNotFoundException o){
+            Log.d("ERROR:OnStart", "FILE NOT FOUND");
+            return;
+        }*/
 
         //Create ListView(Item list)
         listView = (ListView) findViewById(R.id.pantryList);

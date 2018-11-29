@@ -32,6 +32,7 @@ public class ListAdaptor extends BaseAdapter {
     private int layoutID;
     private String buttonType;
     private ArrayList<Recipe> recipes;
+    private String currentIngredient;
 
     public ListAdaptor(Context context, List<String> content, int itemid, int layoutid, String type){
         mContext = context;
@@ -88,7 +89,7 @@ public class ListAdaptor extends BaseAdapter {
                     Intent intent = new Intent(mContext, RecipeActivity.class);
                     Recipe rep = getRecipe(position);
                     intent.putExtra("recipeName", rep.getRecipeName());
-                    intent.putExtra("ingredients", rep.getRecipeInstructions());
+                    intent.putExtra("ingredients", "Ingredients:\n" + currentIngredient);
                     intent.putExtra("instructions", rep.getRecipeInstructions());
                     mContext.startActivity(intent);
                 }
@@ -174,6 +175,8 @@ public class ListAdaptor extends BaseAdapter {
         recipes.addAll(reps);
     }
 
-
+    public void setCurrentIngredient(String ingredient){
+        currentIngredient = ingredient;
+    }
 
 }
