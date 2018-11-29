@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -111,11 +113,36 @@ public class SearchActivity extends AppCompatActivity
     //Processes Query after user taps "Submit" button
     @Override
     public boolean onQueryTextSubmit(String query) {
-        //Handles search query
         //Debugging line:
         Log.d("QUERY", "word: " + query);
-        //Implement Search Function here;
-        //listAdaptor.filter(query);
+
+        //Handles search query
+        DownloadTask task = new DownloadTask();
+        ArrayList<String> queryList = new ArrayList<>();
+        query = query.toLowerCase(Locale.getDefault());
+
+        if(query.length() == 0){
+            listAdaptor.filter(query);
+        }else{//if not empty
+            //turns comma separated string into array
+            int loc = query.indexOf(',');
+            while(loc != -1){
+                queryList.add(query.substring(0, loc));
+                query = query.substring(loc+1);
+                loc = query.indexOf(',');
+            }
+            String[] queryArray = new String[queryList.size()];
+            ArrayList<Recipe> result = null;
+            //gets recipes from database
+            try {
+                result = task.execute(queryList.toArray(queryArray)).get();
+                //listAdaptor.filter(result);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
     //Handle text changes
