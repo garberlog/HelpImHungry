@@ -138,8 +138,7 @@ public class SearchActivity extends AppCompatActivity
             //gets recipes from database
             try {
                 recipes = task.execute(queryList.toArray(queryArray)).get();
-                //call function to send data to listadapter
-                //listAdaptor.filter(result);
+                updateUI(recipes);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 listAdaptor.clear();
@@ -150,6 +149,11 @@ public class SearchActivity extends AppCompatActivity
         }
         return false;
     }
+
+    public void updateUI(ArrayList<Recipe> recipes) {
+        //listAdaptor.filter(recipes);
+    }
+
     //Handle text changes
     @Override
     public boolean onQueryTextChange(String newText) {
