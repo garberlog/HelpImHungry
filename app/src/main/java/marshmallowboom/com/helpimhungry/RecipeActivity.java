@@ -17,10 +17,10 @@ public class RecipeActivity extends AppCompatActivity {
         TextView recipeView = (TextView)findViewById(R.id.RecipeName);
         recipeView.setText(recipeName);
         String ingredientList = intent.getStringExtra("ingredients");
-        RecyclerView ingredientView = (RecyclerView)findViewById(R.id.IngredientsView);
-        //ingredientView.setText(ingredientList);
+        TextView ingredientView = (TextView)findViewById(R.id.IngredientsView);
+        ingredientView.setText(ingredientList);
         String instructionList = intent.getStringExtra("instructions");
-        RecyclerView instructionView = (RecyclerView)findViewById(R.id.InstructionsView);
-        //instructionView.setText(instructionList);
+        TextView instructionView = (TextView)findViewById(R.id.InstructionsView);
+        instructionView.setText(instructionList);
     }
 }
