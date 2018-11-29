@@ -31,6 +31,7 @@ public class ListAdaptor extends BaseAdapter {
     private int listItemID;
     private int layoutID;
     private String buttonType;
+    private ArrayList<Recipe> recipes;
 
     public ListAdaptor(Context context, List<String> content, int itemid, int layoutid, String type){
         mContext = context;
@@ -85,9 +86,10 @@ public class ListAdaptor extends BaseAdapter {
                 public void onClick(View v) {
                     //recipe button function
                     Intent intent = new Intent(mContext, RecipeActivity.class);
-                    intent.putExtra("recipeName", "penguin soup");
-                    intent.putExtra("ingredients", "soup, penguin things");
-                    intent.putExtra("instructions", "1. Get a penguin\n2. Soup it up");
+                    Recipe rep = getRecipe(position);
+                    intent.putExtra("recipeName", rep.getRecipeName());
+                    intent.putExtra("ingredients", rep.getRecipeInstructions());
+                    intent.putExtra("instructions", rep.getRecipeInstructions());
                     mContext.startActivity(intent);
                 }
             });
@@ -153,6 +155,23 @@ public class ListAdaptor extends BaseAdapter {
             return displayItems;
         }
 
+    }
+    public Recipe getRecipe(int repPosition){
+        String repName = displayItems.get(repPosition);
+        for(Recipe rep : recipes){
+            if(rep.getRecipeName().toLowerCase().equals(repName.toLowerCase())){
+                return rep;
+            }
+        }
+        return null;
+    }
+
+    public void setRecipes(ArrayList<Recipe> reps){
+        recipes = new ArrayList<Recipe>();
+        if(reps == null){
+            return;
+        }
+        recipes.addAll(reps);
     }
 
 

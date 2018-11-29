@@ -61,7 +61,7 @@ public class SearchActivity extends AppCompatActivity
         listView.setAdapter(listAdaptor);
 
         //initialize the recipes list that is returned from the API
-        recipes = new ArrayList<>();
+        recipes = new ArrayList<Recipe>();
     }
 
     @Override
@@ -145,6 +145,7 @@ public class SearchActivity extends AppCompatActivity
             Log.d("UPDATEUI", "ADDED: "+rep.getRecipeName() );
             listAdaptor.addItem(rep.getRecipeName());
         }
+        listAdaptor.setRecipes(recipes);
     }
 
     //Handle text changes
@@ -154,4 +155,6 @@ public class SearchActivity extends AppCompatActivity
         //listAdaptor.filter(newText);
         return false;
     }
+
+
 }
