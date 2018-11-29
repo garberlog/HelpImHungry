@@ -86,6 +86,8 @@ public class ListAdaptor extends BaseAdapter {
                     //recipe button function
                     Intent intent = new Intent(mContext, RecipeActivity.class);
                     intent.putExtra("recipeName", "penguin soup");
+                    intent.putExtra("ingredients", "soup, penguin things");
+                    intent.putExtra("steps", "1. Get a penguin\n2. Soup it up");
                     mContext.startActivity(intent);
                 }
             });
@@ -148,6 +150,16 @@ public class ListAdaptor extends BaseAdapter {
     public void displayAll(){
         displayItems.addAll(allItems);
         notifyDataSetChanged();
+    }
+
+    public List<String> getDisplayList(){
+        if(displayItems.size() == 0){
+            return null;
+        }
+        else {
+            return displayItems;
+        }
+
     }
 
 

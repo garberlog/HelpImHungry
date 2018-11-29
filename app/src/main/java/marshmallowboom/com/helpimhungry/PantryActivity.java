@@ -13,7 +13,12 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PantryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -23,7 +28,7 @@ public class PantryActivity extends AppCompatActivity
     SearchView ingredientInput;
     ArrayList<String> pantryList;
     ListView listView;
-
+    File savedPantry;
 
 
     @Override
@@ -42,18 +47,57 @@ public class PantryActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        pantryList = new ArrayList<String>();
+        savedPantry = new File(getFilesDir(), "pantryList.csv");
+
         ingredientInput = (SearchView) findViewById(R.id.pantryInput);
         ingredientInput.setSubmitButtonEnabled(true);
         ingredientInput.setOnQueryTextListener(this);
 
-        pantryList = new ArrayList<String>();
 
+    }
+    //Runs after OnCreate
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        //Parsing arraylist from csv file
+
+
+        //Create ListView(Item list)
         listView = (ListView) findViewById(R.id.pantryList);
         listAdaptor = new ListAdaptor(this, pantryList, R.id.pantryItem, R.layout.pantry_item, "pantry");
         listView.setAdapter(listAdaptor);
-        //inputIngredient
+
+    }
+    //Runs when application is paused (minimized)
+    @Override
+    protected void onPause(){
+        super.onPause();
+        try {
+            FileOutputStream fos = new FileOutputStream(savedPantry);
+            pantryList.clear();
+            List<String> allItems = listAdaptor.getDisplayList();
+            if(allItems == null){
+                Log.d("ONPause:", "temp is empty");
+                return;
+            }
+            pantryList.addAll(allItems);
 
 
+            for(String item : pantryList){
+                String temp = item + ",";
+                fos.write(temp.getBytes());
+            }
+
+            fos.close();
+        }catch (FileNotFoundException notfound) {
+            Log.d("ERROR", "FILE NOT FOUND");
+            return;
+        }catch (IOException noWrite){
+            Log.d("ERROR", "CANNOT WRITE TO FILE");
+            return;
+        }
     }
 
     @Override
@@ -118,12 +162,9 @@ public class PantryActivity extends AppCompatActivity
         return false;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        ingredientInput.setQuery("", false);
-    }
+
+
 
 
 }
