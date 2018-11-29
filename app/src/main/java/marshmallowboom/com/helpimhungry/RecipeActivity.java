@@ -14,13 +14,13 @@ public class RecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe);
         Intent intent = getIntent();
         String recipeName = intent.getStringExtra("recipeName");
-        TextView recipeView = (TextView)findViewById(R.id.RecipeName);
+        TextView recipeView = findViewById(R.id.RecipeName);
         recipeView.setText(recipeName);
         String ingredientList = intent.getStringExtra("ingredients");
-        TextView ingredientView = (TextView)findViewById(R.id.IngredientsView);
+        TextView ingredientView = findViewById(R.id.IngredientsView);
         ingredientView.setText(ingredientList);
         String instructionList = intent.getStringExtra("instructions");
-        TextView instructionView = (TextView)findViewById(R.id.InstructionsView);
+        TextView instructionView = findViewById(R.id.InstructionsView);
         instructionView.setText(instructionList);
     }
 }

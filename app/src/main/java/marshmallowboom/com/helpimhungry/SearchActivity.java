@@ -27,26 +27,27 @@ public class SearchActivity extends AppCompatActivity
     List<String> adaptorNames;
     ListAdaptor listAdaptor;
     ListView listView;
+    ArrayList<Recipe> recipes;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Search bar
-        SearchView searchBar = (SearchView) findViewById(R.id.searchBar);
+        SearchView searchBar = findViewById(R.id.searchBar);
         searchBar.setSubmitButtonEnabled(true);
         searchBar.setOnQueryTextListener(this);
         //NOTE:
@@ -59,22 +60,23 @@ public class SearchActivity extends AppCompatActivity
                 "Stir-Fry Vegetables",
                 "General Tso's Chicken",
                 "Steamed Flounder with Black Beans"};
-        adaptorNames = new ArrayList<String>();
+        adaptorNames = new ArrayList<>();
         //add values into list
         for(int i = 0; i < recipeNames.length; i++){
             adaptorNames.add(recipeNames[i]);
         }
         //Setup adaptor List
-        listView = (ListView) this.findViewById(R.id.resultList);
+        listView = this.findViewById(R.id.resultList);
         listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipeItems, R.layout.result_list_items, "recipe");
         listView.setAdapter(listAdaptor);
 
-
+        //initialize the recipes list that is returned from the API
+        recipes = new ArrayList<>();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -105,7 +107,7 @@ public class SearchActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -122,7 +124,8 @@ public class SearchActivity extends AppCompatActivity
         query = query.toLowerCase(Locale.getDefault());
 
         if(query.length() == 0){
-            listAdaptor.filter(query);
+            recipes.clear();
+            listAdaptor.clear();
         }else{//if not empty
             //turns comma separated string into array
             int loc = query.indexOf(',');
@@ -132,15 +135,17 @@ public class SearchActivity extends AppCompatActivity
                 loc = query.indexOf(',');
             }
             String[] queryArray = new String[queryList.size()];
-            ArrayList<Recipe> result = null;
             //gets recipes from database
             try {
-                result = task.execute(queryList.toArray(queryArray)).get();
+                recipes = task.execute(queryList.toArray(queryArray)).get();
+                //call function to send data to listadapter
                 //listAdaptor.filter(result);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                listAdaptor.clear();
             } catch (ExecutionException e) {
                 e.printStackTrace();
+                listAdaptor.clear();
             }
         }
         return false;
