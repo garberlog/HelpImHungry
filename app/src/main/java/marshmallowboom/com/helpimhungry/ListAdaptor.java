@@ -1,6 +1,7 @@
 package marshmallowboom.com.helpimhungry;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.solver.widgets.WidgetContainer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,8 +30,9 @@ public class ListAdaptor extends BaseAdapter {
     private LayoutInflater inflater;
     private int listItemID;
     private int layoutID;
+    private String buttonType;
 
-    public ListAdaptor(Context context, List<String> content, int itemid, int layoutid){
+    public ListAdaptor(Context context, List<String> content, int itemid, int layoutid, String type){
         mContext = context;
         displayItems = content;
         allItems = new ArrayList<String>();
@@ -39,7 +41,7 @@ public class ListAdaptor extends BaseAdapter {
         displayItems.clear();
         listItemID = itemid;
         layoutID = layoutid;
-
+        buttonType = type;
     }
     @Override
     public int getCount() {
@@ -77,6 +79,25 @@ public class ListAdaptor extends BaseAdapter {
         }
         //Results
         holder.itemName.setText(displayItems.get(position));
+        //SetOnClickListener
+        if(buttonType.equals("recipe")){
+            holder.itemName.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    //recipe button function
+                    Intent intent = new Intent(mContext, RecipeActivity.class);
+                    intent.putExtra("message", "Recipe");
+                    mContext.startActivity(intent);
+                }
+            });
+        }else if(buttonType.equals("pantry")){
+            holder.itemName.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    //pantry button function
+
+
+                }
+            });
+        }
         return view;
     }
 

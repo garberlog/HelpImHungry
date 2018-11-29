@@ -50,7 +50,7 @@ public class PantryActivity extends AppCompatActivity
 
 
         listView = (ListView) findViewById(R.id.pantryList);
-        listAdaptor = new ListAdaptor(this, pantryList, R.id.pantryItem, R.layout.pantry_item);
+        listAdaptor = new ListAdaptor(this, pantryList, R.id.pantryItem, R.layout.pantry_item, "pantry");
         listView.setAdapter(listAdaptor);
         //inputIngredient
 

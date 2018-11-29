@@ -64,7 +64,7 @@ public class SearchActivity extends AppCompatActivity
         }
         //Setup adaptor List
         listView = (ListView) this.findViewById(R.id.resultList);
-        listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipeItems, R.layout.result_list_items);
+        listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipeItems, R.layout.result_list_items, "recipe");
         listView.setAdapter(listAdaptor);
 
 
