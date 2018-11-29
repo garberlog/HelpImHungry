@@ -148,7 +148,6 @@ public class PantryActivity extends AppCompatActivity
         //Implement Search Function here;
         listAdaptor.addItem(query);
         listAdaptor.displayAll();
-        query = "";
         return false;
     }
     //Handle text changes

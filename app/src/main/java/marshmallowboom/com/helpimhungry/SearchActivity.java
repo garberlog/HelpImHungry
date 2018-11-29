@@ -142,6 +142,7 @@ public class SearchActivity extends AppCompatActivity
 
     public void updateUI(ArrayList<Recipe> recipes) {
         for(Recipe rep : recipes){
+            Log.d("UPDATEUI", "ADDED: "+rep.getRecipeName() );
             listAdaptor.addItem(rep.getRecipeName());
         }
     }
@@ -150,7 +151,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         String text = newText;
-        listAdaptor.filter(newText);
+        //listAdaptor.filter(newText);
         return false;
     }
 }

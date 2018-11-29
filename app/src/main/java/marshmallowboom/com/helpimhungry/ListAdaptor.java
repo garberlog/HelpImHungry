@@ -123,17 +123,10 @@ public class ListAdaptor extends BaseAdapter {
     //  Pantry Stuff
     public void addItem(String charText){
         charText = charText.toLowerCase(Locale.getDefault());
-        boolean in_list = false;
-        for(String name : allItems){
-            if(name.toLowerCase(Locale.getDefault()).contains(charText)){
-                in_list = true;
-                break;
-            }
-        }
-        if(!in_list){
+        if(!displayItems.contains(charText) && !allItems.contains(charText)){
             allItems.add(charText);
+            displayItems.add(charText);
         }
-
         notifyDataSetChanged();
     }
     public void removeIngredient(int pos){
