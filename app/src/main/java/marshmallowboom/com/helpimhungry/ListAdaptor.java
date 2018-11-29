@@ -87,7 +87,7 @@ public class ListAdaptor extends BaseAdapter {
                     Intent intent = new Intent(mContext, RecipeActivity.class);
                     intent.putExtra("recipeName", "penguin soup");
                     intent.putExtra("ingredients", "soup, penguin things");
-                    intent.putExtra("steps", "1. Get a penguin\n2. Soup it up");
+                    intent.putExtra("instructions", "1. Get a penguin\n2. Soup it up");
                     mContext.startActivity(intent);
                 }
             });
@@ -121,7 +121,7 @@ public class ListAdaptor extends BaseAdapter {
     //Add Ingredient:
     //Used by:
     //  Pantry Stuff
-    public void addIngredient(String charText){
+    public void addItem(String charText){
         charText = charText.toLowerCase(Locale.getDefault());
         boolean in_list = false;
         for(String name : allItems){

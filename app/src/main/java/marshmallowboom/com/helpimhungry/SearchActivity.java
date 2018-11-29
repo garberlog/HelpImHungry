@@ -23,7 +23,7 @@ public class SearchActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
                 SearchView.OnQueryTextListener{
 
-    String[] recipeNames;
+
     List<String> adaptorNames;
     ListAdaptor listAdaptor;
     ListView listView;
@@ -52,19 +52,9 @@ public class SearchActivity extends AppCompatActivity
         searchBar.setOnQueryTextListener(this);
         //NOTE:
         //Remove after display works!
-        recipeNames = new String[]{"Chicken Noodle Soup",
-                "Pancakes",
-                "Waffles",
-                "Scrambled Eggs",
-                "French Toast",
-                "Stir-Fry Vegetables",
-                "General Tso's Chicken",
-                "Steamed Flounder with Black Beans"};
         adaptorNames = new ArrayList<>();
         //add values into list
-        for(int i = 0; i < recipeNames.length; i++){
-            adaptorNames.add(recipeNames[i]);
-        }
+
         //Setup adaptor List
         listView = this.findViewById(R.id.resultList);
         listAdaptor = new ListAdaptor(this ,adaptorNames, R.id.recipeItems, R.layout.result_list_items, "recipe");
@@ -117,7 +107,6 @@ public class SearchActivity extends AppCompatActivity
     public boolean onQueryTextSubmit(String query) {
         //Debugging line:
         Log.d("QUERY", "word: " + query);
-
         //Handles search query
         DownloadTask task = new DownloadTask();
         ArrayList<String> queryList = new ArrayList<>();
@@ -134,6 +123,7 @@ public class SearchActivity extends AppCompatActivity
                 query = query.substring(loc+1);
                 loc = query.indexOf(',');
             }
+            queryList.add(query);
             String[] queryArray = new String[queryList.size()];
             //gets recipes from database
             try {
@@ -151,7 +141,9 @@ public class SearchActivity extends AppCompatActivity
     }
 
     public void updateUI(ArrayList<Recipe> recipes) {
-        //listAdaptor.filter(recipes);
+        for(Recipe rep : recipes){
+            listAdaptor.addItem(rep.getRecipeName());
+        }
     }
 
     //Handle text changes

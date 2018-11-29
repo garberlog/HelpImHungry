@@ -146,7 +146,7 @@ public class PantryActivity extends AppCompatActivity
         //Debugging line:
         Log.d("QUERY", "word: " + query);
         //Implement Search Function here;
-        listAdaptor.addIngredient(query);
+        listAdaptor.addItem(query);
         listAdaptor.displayAll();
         query = "";
         return false;
