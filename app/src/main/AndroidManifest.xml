@@ -16,11 +16,7 @@
         android:theme="@style/AppTheme">
 
         <!--
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-
-        </activity>
+            Default Activity : Search
         -->
         <activity
             android:name=".SearchActivity"

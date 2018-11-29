@@ -60,7 +60,7 @@ public class ListAdaptor extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View view, final ViewGroup parent){
+    public View getView(final int position, View view, final ViewGroup parent){
         final ViewHolder holder;
         if(inflater == null){
             Log.d("Adaptor_inflater", "IN-IF INFLATOR NULL");
@@ -85,7 +85,7 @@ public class ListAdaptor extends BaseAdapter {
                 public void onClick(View v) {
                     //recipe button function
                     Intent intent = new Intent(mContext, RecipeActivity.class);
-                    intent.putExtra("message", "Recipe");
+                    intent.putExtra("recipeName", "penguin soup");
                     mContext.startActivity(intent);
                 }
             });
@@ -93,8 +93,7 @@ public class ListAdaptor extends BaseAdapter {
             holder.itemName.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     //pantry button function
-
-
+                    removeIngredient(position);
                 }
             });
         }
@@ -135,14 +134,22 @@ public class ListAdaptor extends BaseAdapter {
 
         notifyDataSetChanged();
     }
+    public void removeIngredient(int pos){
+        displayItems.remove(pos);
+
+        notifyDataSetChanged();
+    }
 
     public void clear(){
         displayItems.clear();
+        notifyDataSetChanged();
     }
 
     public void displayAll(){
         displayItems.addAll(allItems);
+        notifyDataSetChanged();
     }
+
 
 
 }
