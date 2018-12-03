@@ -2,25 +2,19 @@ package marshmallowboom.com.helpimhungry;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Pattern;
 
 //Async process: <Type of data sent to download task, name of the method used to show progress
 // of task(not implemented yet), type of var to be returned by the download>
 public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
-
     final String API_KEY = "4La0d7DdzBmshTuDWzkODqADfK4up1vuJkljsnpNaMfLWInYch";
-
     //String... is same as var[] args. Essentially an array of content passed in
     @Override
     protected ArrayList<Recipe> doInBackground(String... ingredients) {
@@ -29,7 +23,6 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
         //"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?fillIngredients=false&ingredients=apples%2Cflour%2Csugar&limitLicense=false&number=1&ranking=1";
         final String base = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?fillIngredients=false&ingredients=";
         final String tail = "&limitLicense=false&number=3&ranking=1";
-
         StringBuilder recStrBldr = new StringBuilder("");
         String seperator = "%2C";
         int numIngredients = ingredients.length;
@@ -43,10 +36,8 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
             }
         }
         String stringUrl = base+recStrBldr.toString()+tail;
-
         URL url;
         HttpURLConnection urlConnection = null;
-
         String recAsString = "";
         try {
             //Convert the string passed from doInBackground into a URL object
@@ -59,7 +50,6 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
             InputStream in = urlConnection.getInputStream();
             //Used to read the data in the InputStream
             InputStreamReader reader = new InputStreamReader(in);
-
             //Gonna read the data one character at a time
             int data = reader.read();
             while (data != -1) {
@@ -72,7 +62,8 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
             ArrayList<Recipe> MatchedRecipeList = new ArrayList<Recipe>();
             String id = null;
             String recName = null;
-            String instructions = null;
+            ArrayList<String> instructions = null;
+            ArrayList<String> ingredList = null;
             //Create JSON array from search results, then loop through each json object in the array to extract the data
             try {
                 JSONArray arr = new JSONArray(searchResult);
@@ -81,7 +72,8 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
                     id = jsonPart.getString("id");
                     recName = jsonPart.getString("title");
                     instructions = getInstructions(id);
-                    MatchedRecipeList.add(new Recipe(id, recName, instructions));
+                    ingredList = getIngredients(id);
+                    MatchedRecipeList.add(new Recipe(id, recName, instructions, ingredList));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -93,10 +85,8 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
             e.printStackTrace();
             return null;
         }
-
     }
-
-    private String getInstructions(String recipeId){
+    private ArrayList<String> getInstructions(String recipeId){
         String searchResult = "";
         //Proper url format listed below.
         //"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/479101/information?includeNutrition=false"
@@ -104,10 +94,8 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
         String Id = recipeId;
         String tail = "/information?includeNutrition=false";
         String stringUrl = base+Id+tail;
-
         URL url;
         HttpURLConnection urlConnection = null;
-
         try {
             //Convert the string passed from doInBackground into a URL object
             url = new URL(stringUrl);
@@ -119,7 +107,6 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
             InputStream in = urlConnection.getInputStream();
             //Used to read the data in the InputStream
             InputStreamReader reader = new InputStreamReader(in);
-
             //Gonna read the data one character at a time
             int data = reader.read();
             while (data != -1) {
@@ -128,15 +115,23 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
                 searchResult += current;
                 data = reader.read();
             }
-            String instructions = "";
+            ArrayList<String> instructions = new ArrayList<>();
             //Create JSON object from the search results
             try {
-
                 JSONObject jObj = new JSONObject(searchResult);
                 //Test code to check the keys we have to work with
 //                Iterator<String> keys = jObj.keys();
 //                Log.i("Keys Available: ",keys.toString());
-                instructions = jObj.getString("instructions");
+                JSONArray arr = jObj.getJSONArray("analyzedInstructions");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject jsonPart = arr.getJSONObject(i);
+                    JSONArray steps = jsonPart.getJSONArray("steps");
+                    for (int j = 0; j < steps.length(); i++) {
+                        JSONObject stepObj = steps.getJSONObject(i);
+                        String curStep = stepObj.getString("step");
+                        instructions.add(curStep);
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -145,9 +140,57 @@ public class DownloadTask extends AsyncTask<String, Void, ArrayList<Recipe>> {
         catch(Exception e) {
             e.printStackTrace();
             //***We can check for this failed value when we return from the task.
-            return "None Available";
+            return null;
         }
     }
-
-
+    private ArrayList<String> getIngredients(String recipeId){
+        String searchResult = "";
+        //Proper url format listed below.
+        //"https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/479101/information?includeNutrition=false"
+        String base = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/";
+        String Id = recipeId;
+        String tail = "/information?includeNutrition=false";
+        String stringUrl = base+Id+tail;
+        URL url;
+        HttpURLConnection urlConnection = null;
+        try {
+            //Convert the string passed from doInBackground into a URL object
+            url = new URL(stringUrl);
+            //establish the connection to the url
+            urlConnection = (HttpURLConnection)url.openConnection();
+            //Inject the API key into the request header
+            urlConnection.setRequestProperty("X-Mashape-Key", API_KEY);
+            //Stream to hold the input of data from the page we're connecting to
+            InputStream in = urlConnection.getInputStream();
+            //Used to read the data in the InputStream
+            InputStreamReader reader = new InputStreamReader(in);
+            //Gonna read the data one character at a time
+            int data = reader.read();
+            while (data != -1) {
+                //Get the current character, append it to result, then continue
+                char current = (char) data;
+                searchResult += current;
+                data = reader.read();
+            }
+            ArrayList<String> ingredients = new ArrayList<>();
+            //Create JSON object from the search results
+            try {
+                JSONObject jObj = new JSONObject(searchResult);
+                JSONArray arr = jObj.getJSONArray("extendedIngredients");
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject jsonPart = arr.getJSONObject(i);
+                    String curIng = jsonPart.getString("original");
+                    ingredients.add(curIng);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return ingredients;
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            //***We can check for this failed value when we return from the task.
+            return null;
+        }
+    }
 }
