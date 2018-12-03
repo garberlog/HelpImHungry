@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class RecipeActivity extends AppCompatActivity {
 
     @Override
@@ -16,11 +18,23 @@ public class RecipeActivity extends AppCompatActivity {
         String recipeName = intent.getStringExtra("recipeName");
         TextView recipeView = findViewById(R.id.RecipeName);
         recipeView.setText(recipeName);
-        String ingredientList = intent.getStringExtra("ingredients");
+        ArrayList<String> ingredientList = intent.getStringArrayListExtra("ingredients");
         TextView ingredientView = findViewById(R.id.IngredientsView);
-        ingredientView.setText(ingredientList);
-        String instructionList = intent.getStringExtra("instructions");
+        String ingredientText = new String();
+        if(ingredientList != null && ingredientList.size() > 0) {
+            for (int i = 0; i < ingredientList.size(); i++) {
+                ingredientText += ingredientList.get(i) + "\n";
+            }
+        }
+        ingredientView.setText(ingredientText);
+        ArrayList<String> instructionList = intent.getStringArrayListExtra("instructions");
         TextView instructionView = findViewById(R.id.InstructionsView);
-        instructionView.setText(instructionList);
+        String instructionText = new String();
+        if(instructionList != null && instructionList.size() > 0){
+            for(int i = 0; i < instructionList.size(); i ++){
+                instructionText += instructionList.get(i) + "\n\n";
+            }
+        }
+        instructionView.setText(instructionText);
     }
 }

@@ -89,8 +89,8 @@ public class ListAdaptor extends BaseAdapter {
                     Intent intent = new Intent(mContext, RecipeActivity.class);
                     Recipe rep = getRecipe(position);
                     intent.putExtra("recipeName", rep.getRecipeName());
-                    intent.putExtra("ingredients", "Ingredients:\n" + currentIngredient);
-                    intent.putExtra("instructions", rep.getRecipeInstructions());
+                    intent.putStringArrayListExtra("ingredients", rep.getRecipeIngredients());
+                    intent.putStringArrayListExtra("instructions", rep.getRecipeInstructions());
                     mContext.startActivity(intent);
                 }
             });
