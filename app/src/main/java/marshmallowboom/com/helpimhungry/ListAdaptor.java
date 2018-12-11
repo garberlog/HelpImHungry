@@ -25,7 +25,7 @@ class ViewHolder{
 public class ListAdaptor extends BaseAdapter {
 
     Context mContext;
-    private List<String> displayItems = null;
+    private ArrayList<String> displayItems = null;
     private ArrayList<String> allItems;
     private LayoutInflater inflater;
     private int listItemID;
@@ -34,7 +34,7 @@ public class ListAdaptor extends BaseAdapter {
     private ArrayList<Recipe> recipes;
     private String currentIngredient;
 
-    public ListAdaptor(Context context, List<String> content, int itemid, int layoutid, String type){
+    public ListAdaptor(Context context, ArrayList<String> content, int itemid, int layoutid, String type){
         mContext = context;
         displayItems = content;
         allItems = new ArrayList<String>();
@@ -151,7 +151,7 @@ public class ListAdaptor extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public List<String> getDisplayList(){
+    public ArrayList<String> getDisplayList(){
         if(displayItems.size() == 0){
             return null;
         }

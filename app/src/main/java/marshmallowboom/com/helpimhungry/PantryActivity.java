@@ -31,7 +31,6 @@ public class PantryActivity extends AppCompatActivity
     SearchView ingredientInput;
     ArrayList<String> pantryList;
     ListView listView;
-    File savedPantry;
 
 
     @Override
@@ -50,81 +49,28 @@ public class PantryActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        pantryList = new ArrayList<String>();
-        savedPantry = new File(getFilesDir(), "pantryList.txt");
 
         ingredientInput = (SearchView) findViewById(R.id.pantryInput);
         ingredientInput.setSubmitButtonEnabled(true);
         ingredientInput.setOnQueryTextListener(this);
 
-
-    }
-    //Runs after OnCreate
-    @Override
-    protected void onStart(){
-        super.onStart();
-        /*String parseline = new String();
-
-        //Parsing arraylist from csv file
-        try{
-            FileInputStream fis = new FileInputStream(savedPantry);
-            InputStreamReader inputStreamReader = new InputStreamReader(fis);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while((parseline = bufferedReader.readLine()) != null){
-                stringBuilder.append(parseline+System.getProperty(","));
-            }
-            fis.close();
-            parseline = stringBuilder.toString();
-
-            Log.d("OnStart", parseline);
-
-            bufferedReader.close();
-
-
-        }catch(FileNotFoundException o){
-            Log.d("ERROR:OnStart", "FILE NOT FOUND");
-            return;
-        }catch(IOException io){
-            Log.d("ERROR:OnStart", "IO ERROR");
-            return;
-        }*/
-
-        //Create ListView(Item list)
+        //Create initialize empty list
+        if(savedInstanceState != null){
+            pantryList = savedInstanceState.getStringArrayList("PANTRY");
+            Log.d("ONCREATESAVEDSTATE", pantryList.toString() );
+        }else {
+            pantryList = new ArrayList<String>();
+        }
         listView = (ListView) findViewById(R.id.pantryList);
         listAdaptor = new ListAdaptor(this, pantryList, R.id.pantryItem, R.layout.pantry_item, "pantry");
         listView.setAdapter(listAdaptor);
 
     }
-    //Runs when application is paused (minimized)
+
     @Override
-    protected void onPause(){
-        super.onPause();
-        try {
-            FileOutputStream fos = new FileOutputStream(savedPantry);
-            pantryList.clear();
-            List<String> allItems = listAdaptor.getDisplayList();
-            if(allItems == null){
-                Log.d("ONPause:", "temp is empty");
-                return;
-            }
-            pantryList.addAll(allItems);
-
-
-            for(String item : pantryList){
-                String temp = item + ",";
-                fos.write(temp.getBytes());
-            }
-
-            fos.close();
-        }catch (FileNotFoundException notfound) {
-            Log.d("ERROR", "FILE NOT FOUND");
-            return;
-        }catch (IOException noWrite){
-            Log.d("ERROR", "CANNOT WRITE TO FILE");
-            return;
-        }
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putStringArrayList("PANTRY",listAdaptor.getDisplayList());
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override

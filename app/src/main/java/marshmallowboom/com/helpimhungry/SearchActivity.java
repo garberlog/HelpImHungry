@@ -24,7 +24,7 @@ public class SearchActivity extends AppCompatActivity
                 SearchView.OnQueryTextListener{
 
 
-    List<String> adaptorNames;
+    ArrayList<String> adaptorNames;
     ListAdaptor listAdaptor;
     ListView listView;
     ArrayList<Recipe> recipes;
@@ -52,7 +52,7 @@ public class SearchActivity extends AppCompatActivity
         searchBar.setOnQueryTextListener(this);
         //NOTE:
         //Remove after display works!
-        adaptorNames = new ArrayList<>();
+        adaptorNames = new ArrayList<String>();
         //add values into list
 
         //Setup adaptor List
@@ -155,7 +155,7 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         String text = newText;
-        //listAdaptor.filter(newText);
+
         return false;
     }
 
